@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아기 사자 명단 대시보드</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <h1>아기 사자 명단 대시보드</h1>
+            <div class="controls">
+                <button id="add-btn" class="btn-primary">아기 사자 추가</button>
+                <button id="delete-btn" class="btn-secondary">마지막 사자 삭제</button>
+                <span id="counter" class="count-badge">총 0명</span>
+            </div>
+        </header>
+
+        <section id="form-section" class="hidden">
+            <form id="lion-form" class="glass-form">
+                <div class="form-grid">
+                    <input type="text" id="name" placeholder="이름" required>
+                    <select id="part">
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="Design">Design</option>
+                    </select>
+                </div>
+                <input type="text" id="tech" placeholder="관심 기술 (쉼표로 구분)" required class="full-width mb-15">
+                <input type="text" id="summary" placeholder="한 줄 소개" required class="full-width mb-15">
+                <textarea id="desc" placeholder="상세 자기소개" required class="full-width mb-15"></textarea>
+                <div class="form-grid">
+                    <input type="email" id="email" placeholder="이메일">
+                    <input type="tel" id="phone" placeholder="전화번호">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn-primary flex-1">등록하기</button>
+                    <button type="button" id="cancel-btn" class="btn-secondary flex-1">취소</button>
+                </div>
+            </form>
+        </section>
+
+        <h2>🦁 아기 사자 요약 보기</h2>
+        <div id="summary-grid" class="grid-container"></div>
+
+        <h2 style="margin-top: 50px;">📋 상세 자기소개 목록</h2>
+        <div id="detail-list" class="list-container"></div>
+    </div>
+    <script src="script3.js"></script>
+</body>
+
+</html>
