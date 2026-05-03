@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>아기 사자 자기소개</title>
+
+    <link rel="stylesheet" href="style4.css" />
+    <script src="script4.js" defer></script>
+</head>
+
+<body>
+    <div class="page-wrap">
+        <header class="page-header">
+            <h1>아기 사자 자기소개</h1>
+            <p>요약 카드 및 상세 자기소개를 한 페이지에서 확인할 수 있습니다.</p>
+        </header>
+
+        <section class="panel control-panel">
+            <div class="top-control-row">
+                <button id="toggleFormBtn" type="button" class="main-btn">아기 사자 추가</button>
+                <button id="removeLastBtn" type="button" class="main-btn">마지막 아기 사자 삭제</button>
+                <span id="totalCount" class="total-count">총 0명</span>
+            </div>
+
+            <div class="top-control-row">
+                <button id="addRandomOneBtn" type="button" class="main-btn async-btn">랜덤 1명 추가</button>
+                <button id="addRandomFiveBtn" type="button" class="main-btn async-btn">랜덤 5명 추가</button>
+                <button id="refreshAllBtn" type="button" class="main-btn async-btn">전체 새로고침</button>
+
+                <div class="status-area">
+                    <span class="status-label">불러오기 상태</span>
+                    <strong id="asyncStatus" class="status-text ready">준비 완료</strong>
+                    <button id="retryBtn" type="button" class="retry-btn hidden">재시도</button>
+                </div>
+            </div>
+
+            <div class="view-option-row">
+                <div class="view-option">
+                    <label for="partFilter">파트</label>
+                    <select id="partFilter">
+                        <option value="all">전체</option>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="Design">Design</option>
+                    </select>
+                </div>
+
+                <div class="view-option">
+                    <label for="sortSelect">정렬</label>
+                    <select id="sortSelect">
+                        <option value="latest">최신 등록순</option>
+                        <option value="name">이름 오름차순</option>
+                    </select>
+                </div>
+
+                <div class="view-option search-option">
+                    <label for="searchInput">검색</label>
+                    <input id="searchInput" type="text" placeholder="이름으로 검색" />
+                </div>
+            </div>
+        </section>
+
+        <section id="formPanel" class="panel form-panel hidden">
+            <h2 class="section-title">아기 사자 정보 입력</h2>
+
+            <form id="lionForm">
+                <div class="form-grid">
+                    <div class="form-item">
+                        <label for="nameInput">이름</label>
+                        <input id="nameInput" type="text" placeholder="예: 소재일" required />
+                    </div>
+
+                    <div class="form-item">
+                        <label for="partInput">파트</label>
+                        <select id="partInput" required>
+                            <option value="Frontend">Frontend</option>
+                            <option value="Backend">Backend</option>
+                            <option value="Design">Design</option>
+                        </select>
+                    </div>
+
+                    <div class="form-item form-wide">
+                        <label for="skillInput">관심 기술</label>
+                        <input id="skillInput" type="text" placeholder="예: JavaScript, React, HTML/CSS" required />
+                    </div>
+
+                    <div class="form-item">
+                        <label for="gradeInput">학년</label>
+                        <select id="gradeInput" required>
+                            <option value="1">1학년</option>
+                            <option value="2">2학년</option>
+                            <option value="3">3학년</option>
+                            <option value="4">4학년</option>
+                        </select>
+                    </div>
+
+                    <div class="form-item form-wide">
+                        <label for="summaryInput">활동 소개</label>
+                        <input id="summaryInput" type="text" placeholder="요약 카드에 들어갈 짧은 소개" required />
+                    </div>
+
+                    <div class="form-item form-wide">
+                        <label for="introInput">자기소개</label>
+                        <textarea id="introInput" rows="4" placeholder="상세 카드에 들어갈 자기소개" required></textarea>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="emailInput">Email</label>
+                        <input id="emailInput" type="email" placeholder="예: lion@example.com" required />
+                    </div>
+
+                    <div class="form-item">
+                        <label for="phoneInput">Phone</label>
+                        <input id="phoneInput" type="text" placeholder="예: 010-1234-5678" required />
+                    </div>
+
+                    <div class="form-item form-wide">
+                        <label for="websiteInput">Website</label>
+                        <input id="websiteInput" type="text" placeholder="예: https://example.com" />
+                    </div>
+
+                    <div class="form-item form-wide">
+                        <label for="commentInput">한 마디</label>
+                        <input id="commentInput" type="text" placeholder="예: 같이 성장해 봅시다!" />
+                    </div>
+
+                    <input id="avatarInput" type="hidden" />
+                </div>
+
+                <div class="form-button-row">
+                    <button id="fillRandomBtn" type="button" class="small-btn async-btn">랜덤 값 채우기</button>
+                    <button type="submit" class="small-btn dark-btn">추가하기</button>
+                    <button id="closeFormBtn" type="button" class="small-btn">닫기</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel card-panel">
+            <div class="section-title-row">
+                <h2 class="yellow-title">아기 사자 카드 목록 영역</h2>
+                <span id="visibleCount" class="visible-count">현재 표시: 0명</span>
+            </div>
+
+            <div id="cardList" class="card-grid">
+                <article class="lion-card" data-lion-card data-id="lion-1" data-name="소재일" data-part="Frontend"
+                    data-skill="JavaScript" data-grade="3" data-summary="비동기 처리와 DOM 갱신을 공부하는 아기 사자입니다."
+                    data-intro="JavaScript의 fetch와 async/await를 사용해서 외부 데이터를 받아오고, 그 결과를 화면에 반영하는 흐름을 배우고 있습니다."
+                    data-email="jaeil.so@example.com" data-phone="010-7124-5162"
+                    data-website="https://jaeil-portfolio.com" data-comment="꾸준히 성장하는 개발자가 되고 싶습니다."
+                    data-avatar="bruno.webp" data-fixed="true">
+                    <div class="card-image-box">
+                        <img src="bruno.webp" alt="소재일" />
+                        <span class="skill-badge">JavaScript</span>
+                        <span class="mine-badge">내 카드</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>소재일 아기사자</h3>
+                        <p class="part-name">Frontend</p>
+                        <p>비동기 처리와 DOM 갱신을 공부하는 아기 사자입니다.</p>
+                    </div>
+                </article>
+
+                <article class="lion-card" data-lion-card data-id="lion-2" data-name="김민재" data-part="Backend"
+                    data-skill="Spring" data-grade="3" data-summary="서버와 API 구조를 중심으로 공부하는 아기 사자입니다."
+                    data-intro="Spring과 REST API에 관심이 있으며, 사용자의 요청이 서버에서 어떻게 처리되고 응답으로 돌아오는지 이해하는 것을 목표로 하고 있습니다."
+                    data-email="minjae.kim@example.com" data-phone="010-4287-1935"
+                    data-website="https://minjae-backend.com" data-comment="기초를 탄탄하게 쌓는 중입니다."
+                    data-avatar="https://randomuser.me/api/portraits/men/41.jpg">
+                    <div class="card-image-box">
+                        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="김민재" />
+                        <span class="skill-badge">Spring</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>김민재 아기사자</h3>
+                        <p class="part-name">Backend</p>
+                        <p>서버와 API 구조를 중심으로 공부하는 아기 사자입니다.</p>
+                    </div>
+                </article>
+
+                <article class="lion-card" data-lion-card data-id="lion-3" data-name="박민지" data-part="Design"
+                    data-skill="Figma" data-grade="2" data-summary="사용자가 보기 편한 화면 구성을 고민하는 아기 사자입니다."
+                    data-intro="Figma를 활용해 화면 구조를 설계하고, 사용자가 쉽게 이해할 수 있는 UI를 만드는 데 관심이 있습니다."
+                    data-email="minji.park@example.com" data-phone="010-5392-6841"
+                    data-website="https://minji-design.com" data-comment="보기 좋은 화면보다 쓰기 쉬운 화면을 만들고 싶습니다."
+                    data-avatar="https://randomuser.me/api/portraits/women/65.jpg">
+                    <div class="card-image-box">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="박민지" />
+                        <span class="skill-badge">Figma</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>박민지 아기사자</h3>
+                        <p class="part-name">Design</p>
+                        <p>사용자가 보기 편한 화면 구성을 고민하는 아기 사자입니다.</p>
+                    </div>
+                </article>
+
+                <article class="lion-card" data-lion-card data-id="lion-4" data-name="김동현" data-part="Frontend"
+                    data-skill="React" data-grade="3" data-summary="React와 컴포넌트 구조를 공부하는 아기 사자입니다."
+                    data-intro="HTML, CSS, JavaScript 기본기를 바탕으로 React 컴포넌트 구조와 상태 관리 방식에 관심을 가지고 공부하고 있습니다."
+                    data-email="donghyun.kim@example.com" data-phone="010-6248-3079"
+                    data-website="https://donghyun-react.com" data-comment="작은 기능부터 정확하게 구현하고 싶습니다."
+                    data-avatar="https://randomuser.me/api/portraits/men/22.jpg">
+                    <div class="card-image-box">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="김동현" />
+                        <span class="skill-badge">React</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>김동현 아기사자</h3>
+                        <p class="part-name">Frontend</p>
+                        <p>React와 컴포넌트 구조를 공부하는 아기 사자입니다.</p>
+                    </div>
+                </article>
+
+                <article class="lion-card" data-lion-card data-id="lion-5" data-name="장석원" data-part="Backend"
+                    data-skill="Node.js" data-grade="4" data-summary="데이터 처리와 서버 로직에 관심이 많은 아기 사자입니다."
+                    data-intro="Node.js를 활용해 서버 로직을 구성하고, 데이터가 요청과 응답 사이에서 어떻게 이동하는지 직접 실습하며 배우고 있습니다."
+                    data-email="seokwon.jang@example.com" data-phone="010-3861-9427"
+                    data-website="https://seokwon-server.com" data-comment="코드의 흐름을 이해하는 개발자가 되고 싶습니다."
+                    data-avatar="https://randomuser.me/api/portraits/men/53.jpg">
+                    <div class="card-image-box">
+                        <img src="https://randomuser.me/api/portraits/men/53.jpg" alt="장석원" />
+                        <span class="skill-badge">Node.js</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>장석원 아기사자</h3>
+                        <p class="part-name">Backend</p>
+                        <p>데이터 처리와 서버 로직에 관심이 많은 아기 사자입니다.</p>
+                    </div>
+                </article>
+
+                <article class="lion-card" data-lion-card data-id="lion-6" data-name="이은교" data-part="Frontend"
+                    data-skill="HTML/CSS" data-grade="2" data-summary="반응형 웹 화면을 직접 만드는 것을 좋아하는 아기 사자입니다."
+                    data-intro="HTML과 CSS를 활용해 화면의 구조와 스타일을 만들고, 다양한 화면 크기에서도 보기 좋은 레이아웃을 구현하는 데 관심이 있습니다."
+                    data-email="eungyo.lee@example.com" data-phone="010-7584-2163" data-website="https://eungyo-web.com"
+                    data-comment="사용자가 편하게 볼 수 있는 웹을 만들고 싶습니다."
+                    data-avatar="https://randomuser.me/api/portraits/women/12.jpg">
+                    <div class="card-image-box">
+                        <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="이은교" />
+                        <span class="skill-badge">HTML/CSS</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>이은교 아기사자</h3>
+                        <p class="part-name">Frontend</p>
+                        <p>반응형 웹 화면을 직접 만드는 것을 좋아하는 아기 사자입니다.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel detail-panel">
+            <h2 class="section-title">상세 자기소개</h2>
+
+            <div id="detailList" class="detail-list">
+                <article class="detail-card" data-lion-detail="lion-1">
+                    <h3>소재일 아기사자</h3>
+                    <p>초기 상세 카드입니다.</p>
+                </article>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
