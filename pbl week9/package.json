@@ -1,5 +1,5 @@
 {
-  "name": "pbl-week8",
+  "name": "pbl-week9",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.107.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
